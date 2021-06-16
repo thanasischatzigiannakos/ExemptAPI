@@ -27,7 +27,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer(required=True)
+    user = CustomUserSerializer()
     am = serializers.CharField(required=True)
 
 

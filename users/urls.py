@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import CustomUserCreate, BlacklistTokenUpdateView, StudentCreate, ProfessorCreate , ActivateAccounts, UserPostDetail, StudentPostDetail, ProfessorPostDetail
+from .views import CustomUserCreate, BlacklistTokenUpdateView, StudentCreate, ProfessorCreate , ActivateAccounts,\
+    UserPostDetail, StudentPostDetail, ProfessorPostDetail
 from django.contrib import admin
 
 app_name = 'users'
