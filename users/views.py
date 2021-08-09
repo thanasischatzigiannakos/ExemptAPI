@@ -12,8 +12,10 @@ from users.models import Student, User, Professor
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.DEBUG)
 
+
 class CustomUserCreate(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = ()
 
     def post(self, request, format='json'):
         serializer = CustomUserSerializer(data=request.data)
@@ -27,18 +29,21 @@ class CustomUserCreate(APIView):
 
 class UserPostDetail(RetrieveAPIView):
     permission_classes = [AllowAny]
+    authentication_classes = ()
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
 
+
 class StudentPostDetail(RetrieveAPIView):
     permission_classes = [AllowAny]
+    authentication_classes = ()
     lookup_field = "user_id"
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
 
-
 class ProfessorPostDetail(RetrieveAPIView):
+    authentication_classes = ()
     permission_classes = [AllowAny]
     lookup_field = "user_id"
     queryset = Professor.objects.all()
@@ -47,6 +52,7 @@ class ProfessorPostDetail(RetrieveAPIView):
 
 class StudentCreate(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = ()
 
     def post(self, request, format='json'):
         serializer = StudentSerializer(data=request.data)
@@ -63,6 +69,7 @@ class StudentCreate(APIView):
 
 class ProfessorCreate(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = ()
 
     def post(self, request, format='json'):
         serializer = ProfessorSerializer(data=request.data)
@@ -81,6 +88,7 @@ class BlacklistTokenUpdateView(APIView):
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
             token.blacklist()
+            print("i am here")
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -88,6 +96,7 @@ class BlacklistTokenUpdateView(APIView):
 
 class ActivateAccounts(UpdateAPIView):
      permission_classes = [AllowAny]
+     authentication_classes = ()
      queryset = User.objects.all()
      serializer_class = CustomUserSerializer
 

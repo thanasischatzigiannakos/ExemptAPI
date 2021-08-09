@@ -77,3 +77,5 @@ class Professor(models.Model):
     rank = models.CharField(max_length=20, choices=Ranks.choices, default=base_rank)
 
 
+
+

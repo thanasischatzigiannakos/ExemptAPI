@@ -1,7 +1,10 @@
 from datetime import datetime
 
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers, status
 from users.models import User, Professor, Student
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -9,28 +12,29 @@ class CustomUserSerializer(serializers.ModelSerializer):
     user_name = serializers.CharField(required=True)
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
-    password = serializers.CharField(min_length=8,required=False)
+    password = serializers.CharField(min_length=8, write_only=True)
     type = serializers.CharField(required=True)
     is_active = serializers.BooleanField(required=False)
+
     class Meta:
         model = User
-        fields = ('email', 'user_name', 'first_name', 'last_name', 'type', 'is_active', 'password')
-        # extra_kwargs = {'password': {'write_only':True}}
+        fields = ('email', 'password', 'user_name', 'first_name', 'last_name', 'type', 'is_active')
+        extra_kwargs = {'password': {'write_only': True}}
 
-        def create(self, validated_data):
-            password = validated_data.pop('password', None)
-            instance = self.Meta.model(**validated_data)
-            if password is not None:
-                instance.set_password(password)
-            instance.save()
-            return instance
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
+
+
 
 
 class StudentSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer()
     am = serializers.CharField(required=True)
-
-
 
     class Meta:
         model = Student
@@ -59,4 +63,6 @@ class ProfessorSerializer(serializers.ModelSerializer):
         user = CustomUserSerializer.create(CustomUserSerializer(), validated_data=user_data)
         professor = Professor.objects.create(user=user, rank=validated_data.pop('rank'))
         return professor
+
+
 

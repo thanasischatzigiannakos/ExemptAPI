@@ -5,7 +5,7 @@ from users.models import Professor, Student
 class SchoolClass(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=250)
-    requiredClasses = models.ManyToManyField('SchoolCLass', symmetrical=False, blank=True, )
+    requiredClasses = models.ManyToManyField('SchoolCLass', symmetrical=False, blank=True, null=True )
 
     def __str__(self):
         return self.name
@@ -24,13 +24,13 @@ class TeachingOfClass(models.Model):
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     theory_weight = models.FloatField()
     lab_weight = models.FloatField()
-    theory_rule = models.IntegerField(blank=True)
-    lab_rule = models.IntegerField(blank=True)
+    theory_rule = models.IntegerField(blank=True, null=True)
+    lab_rule = models.IntegerField(blank=True, null=True)
 
 
 class StudentSignUp(models.Model):
     teaching = models.ForeignKey(TeachingOfClass, on_delete=models.CASCADE)
     student = models.ManyToManyField(Student)
-    theory_score = models.FloatField(blank=True)
-    lab_score = models.FloatField(blank=True)
-    final_score = models.FloatField(blank=True)
+    theory_score = models.FloatField(blank=True, null=True)
+    lab_score = models.FloatField(blank=True, null=True)
+    final_score = models.FloatField(blank=True, null=True)
