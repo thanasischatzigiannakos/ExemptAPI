@@ -22,15 +22,21 @@ class TeachingOfClass(models.Model):
     base_semester = Semesters.SU
     semester = models.CharField(max_length=6, choices=Semesters.choices)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
-    theory_weight = models.FloatField()
-    lab_weight = models.FloatField()
+    theory_weight = models.FloatField(blank=True, null=True)
+    lab_weight = models.FloatField(blank=True, null=True)
     theory_rule = models.IntegerField(blank=True, null=True)
     lab_rule = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.schoolClass.name
 
 
 class StudentSignUp(models.Model):
     teaching = models.ForeignKey(TeachingOfClass, on_delete=models.CASCADE)
-    student = models.ManyToManyField(Student)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     theory_score = models.FloatField(blank=True, null=True)
     lab_score = models.FloatField(blank=True, null=True)
     final_score = models.FloatField(blank=True, null=True)
+
+    def __str__(self):
+        return self.teaching.schoolClass.name

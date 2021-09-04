@@ -29,4 +29,6 @@ class UserAdminConfig(UserAdmin):
 
 
 admin.site.register(User, UserAdminConfig)
+admin.site.register(Student)
+admin.site.register(Professor)
 

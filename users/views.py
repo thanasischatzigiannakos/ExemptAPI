@@ -58,7 +58,7 @@ class StudentCreate(APIView):
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid(raise_exception=ValueError):
             serializer.create(validated_data=request.data)
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, format='json'):
@@ -81,33 +81,25 @@ class ProfessorCreate(APIView):
 
 class BlacklistTokenUpdateView(APIView):
     permission_classes = [AllowAny]
-    authentication_classes = ()
 
     def post(self, request):
         try:
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
             token.blacklist()
-            print("i am here")
-            return Response(status=status.HTTP_205_RESET_CONTENT)
+            return Response(status=status.HTTP_200_OK)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class ActivateAccounts(UpdateAPIView):
-     permission_classes = [AllowAny]
-     authentication_classes = ()
-     queryset = User.objects.all()
-     serializer_class = CustomUserSerializer
+    permission_classes = [AllowAny]
+    authentication_classes = ()
+    queryset = User.objects.all()
+    serializer_class = CustomUserSerializer
 
 
-
-
-
-
-
-
-#REGISTRATION COMPLETE MUST START WORK ON FUNCTIONALITY
+# REGISTRATION COMPLETE MUST START WORK ON FUNCTIONALITY
 
 """ Concrete View Classes
     #CreateAPIView

@@ -64,6 +64,9 @@ class Student(models.Model):
     am = models.CharField(max_length=11, unique=True)
     sign_up_date = models.CharField(max_length=4)
 
+    def __str__(self):
+        return self.am
+
 
 class Professor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -75,6 +78,9 @@ class Professor(models.Model):
 
     base_rank = Ranks.PROFESSOR
     rank = models.CharField(max_length=20, choices=Ranks.choices, default=base_rank)
+
+    def __str__(self):
+        return self.user.last_name
 
 
 
