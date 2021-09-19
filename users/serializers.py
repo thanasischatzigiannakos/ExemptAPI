@@ -30,6 +30,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return instance
 
 
+class UpdateUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('email', 'user_name', 'first_name', 'last_name', 'password',)
 
 
 class StudentSerializer(serializers.ModelSerializer):

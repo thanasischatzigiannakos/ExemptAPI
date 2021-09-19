@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import CustomUserSerializer, StudentSerializer, ProfessorSerializer
+from .serializers import CustomUserSerializer, StudentSerializer, ProfessorSerializer, UpdateUserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAdminUser
 from users.models import Student, User, Professor
@@ -96,7 +96,7 @@ class ActivateAccounts(UpdateAPIView):
     permission_classes = [AllowAny]
     authentication_classes = ()
     queryset = User.objects.all()
-    serializer_class = CustomUserSerializer
+    serializer_class = UpdateUserSerializer
 
 
 # REGISTRATION COMPLETE MUST START WORK ON FUNCTIONALITY

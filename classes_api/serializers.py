@@ -22,12 +22,26 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ('user',)
 
 
+class StudentExtendedSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer()
+
+    class Meta:
+        model = Student
+        fields = ('user', 'am',)
+
+
 class EachClassSerializer(serializers.ModelSerializer):
     name = serializers.CharField()
 
     class Meta:
         model = SchoolClass
         fields = ('name', 'id', 'description')
+
+
+class ClassIDSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SchoolClass
+        fields = ('id',)
 
 
 class ClassSerializer(serializers.ModelSerializer):
@@ -102,6 +116,46 @@ class ClassSignUpSerializer(serializers.ModelSerializer):
         model = StudentSignUp
         fields = ('id', 'teaching', 'student', 'theory_score', 'lab_score'
                   , 'final_score')
+
+
+class ClassSignUpUpdateSerializer(serializers.ModelSerializer):
+    student = StudentSerializer(read_only=True)
+    teaching = TeachingSerializer(read_only=True)
+
+    class Meta:
+        model = StudentSignUp
+        fields = ('id', 'teaching', 'student', 'theory_score', 'lab_score'
+                  , 'final_score')
+
+
+class ClassForGradingSerializer(serializers.ModelSerializer):
+    student = StudentExtendedSerializer()
+    teaching = TeachingSerializer()
+
+    class Meta:
+        model = StudentSignUp
+        fields = ('id', 'teaching', 'student', 'theory_score', 'lab_score'
+                  , 'final_score')
+
+
+class MyStudentsGradesSerializer(serializers.ModelSerializer):
+    teaching = MyTeachingsSerializer()
+    student = StudentSerializer()
+    professor = ProfessorIdSerializer()
+
+    class Meta:
+        model = StudentSignUp
+        fields = ('id', 'teaching', 'student', 'theory_score', 'lab_score'
+                  , 'final_score')
+
+
+class UpdateTeachingSerializer(serializers.ModelSerializer):
+    schoolClass = ClassIDSerializer(read_only=True)
+    professor = ProfessorIdSerializer(read_only=True)
+
+    class Meta:
+        model = TeachingOfClass
+        fields = ('id', 'schoolClass', 'class_year', 'semester', 'professor', 'theory_weight', 'lab_weight', 'theory_rule', 'lab_rule',)
 
 
 class StudentSignUpToClass(serializers.ModelSerializer):

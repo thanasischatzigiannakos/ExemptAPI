@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from django.conf import settings
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'users',
     'rest_framework_simplejwt.token_blacklist',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -84,8 +86,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'exemptApp',
+        'USER': 'postgres',
+        'PASSWORD': 'mypasswd',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -135,7 +141,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
 
-    )
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+
 }
 
 CORS_ALLOWED_ORIGINS = [

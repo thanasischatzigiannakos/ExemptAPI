@@ -4,7 +4,8 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from classes.models import SchoolClass, TeachingOfClass, StudentSignUp
 from .serializers import ClassSerializer, TeachingSerializer, ClassSignUpSerializer, StudentSignUpToClass,\
-    MyTeachingsSerializer
+    MyTeachingsSerializer, UpdateTeachingSerializer, MyStudentsGradesSerializer, ClassForGradingSerializer,\
+    ClassSignUpUpdateSerializer
 from rest_framework.permissions import AllowAny, IsAdminUser
 
 
@@ -54,7 +55,7 @@ class EditTeaching(generics.UpdateAPIView):
     permission_classes = [AllowAny]
     authentication_classes = ()
     queryset = TeachingOfClass.objects.all()
-    serializer_class = TeachingSerializer
+    serializer_class = UpdateTeachingSerializer
 
 
 class MyTeachingList(generics.ListCreateAPIView):
@@ -79,7 +80,7 @@ class StudentsSignUpList(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     authentication_classes = ()
     queryset = StudentSignUp.objects.all()
-    serializer_class = ClassSignUpSerializer
+    serializer_class = ClassForGradingSerializer
 
 
 class CreateStudentSignUp(APIView):
@@ -98,7 +99,7 @@ class EditStudentSignUp(generics.UpdateAPIView):
     permission_classes = [AllowAny]
     authentication_classes = ()
     queryset = StudentSignUp.objects.all()
-    serializer_class = ClassSignUpSerializer
+    serializer_class = ClassSignUpUpdateSerializer
 
 
 class DeleteStudentSignUp(generics.RetrieveDestroyAPIView):
